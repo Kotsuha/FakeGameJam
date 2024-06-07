@@ -634,7 +634,7 @@ PositionConstraint:
   m_Active: 1
   m_IsLocked: 1
   m_Sources:
-  - sourceTransform: {fileID: 0}
+  - sourceTransform: {fileID: 1635173000}
     weight: 1
 --- !u!1 &1003015230
 GameObject:
