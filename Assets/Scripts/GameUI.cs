@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using SaintsField;
 using TMPro;
 using UnityEngine;
@@ -25,16 +22,30 @@ public class GameUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // 聽「玩家血量變了」事件
-        // 更新血條
         EventAggregator.Instance.OnTrigger += OnEventTriggered;
+    }
+
+    void OnDestroy()
+    {
+        EventAggregator.Instance.OnTrigger -= OnEventTriggered;
     }
 
     private void OnEventTriggered((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
     {
+        // 聽「玩家血量變了」事件，更新血條
         if (tuple.id == nameof(Player) && tuple.eventType == EventType.Player && tuple.behaviorType == EventBehaviorType.HpChanged)
         {
             OnPlayerHpChanged(tuple);
+        }
+        // 聽「遊戲結束」事件，出現 Game Over 字樣
+        if (tuple.id == nameof(GameManager) && tuple.eventType == EventType.System && tuple.behaviorType == EventBehaviorType.GameOver)
+        {
+            OnGameOver(tuple);
+        }
+        // 聽「遊戲開始」事件，隱藏 Game Over 字樣
+        if (tuple.id == nameof(GameManager) && tuple.eventType == EventType.System && tuple.behaviorType == EventBehaviorType.GameStart)
+        {
+            OnGameStart(tuple);
         }
     }
 
@@ -43,6 +54,16 @@ public class GameUI : MonoBehaviour
         var (hp, hpMax) = EventAggregator.Instance.InvokeRegisterEvent<(float hp, float hpMax)>(tuple.id, tuple.eventType, tuple.behaviorType);
         var ratio = hp / hpMax;
         SetHpBarRatio(ratio);
+    }
+
+    private void OnGameOver((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
+    {
+        ShowGameOver();
+    }
+
+    private void OnGameStart((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
+    {
+        HideGameOver();
     }
 
     private void SetHpBarRatio(float value)
@@ -57,11 +78,13 @@ public class GameUI : MonoBehaviour
 
     private void ShowGameOver()
     {
+        // Debug.Log("顯示 Game Over");
         gameOver.gameObject.SetActive(true);
     }
 
     private void HideGameOver()
     {
+        // Debug.Log("隱藏 Game Over");
         gameOver.gameObject.SetActive(false);
     }
 
