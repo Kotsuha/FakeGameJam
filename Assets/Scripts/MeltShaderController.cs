@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -7,7 +8,7 @@ using UnityEngine;
 public class MeltShaderController : MonoBehaviour
 {
     MeshRenderer meshRenderer;
-    Material material;
+    List<Material> materials;
 
     readonly string Mat_MeltProgress = "_MeltProgress";
 
@@ -19,23 +20,27 @@ public class MeltShaderController : MonoBehaviour
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        material = meshRenderer.sharedMaterial;
+        materials = meshRenderer.materials.ToList();
     }
 
-    public void Init(Material material)
-    {
-        this.material = material;
-    }
+    // public void Init(Material material)
+    // {
+    //     this.materials = material;
+    // }
 
-    private void Update()
-    {
-        SetMeltProgress(MeltProcess);
-    }
+    // private void Update()
+    // {
+    //     SetMeltProgress(MeltProcess);
+    // }
 
 
     public void SetMeltProgress(float value)
     {
-        material.SetFloat(Mat_MeltProgress, value);
+        MeltProcess = value;
+        foreach (var mat in materials)
+        {
+            mat.SetFloat(Mat_MeltProgress, value);
+        }
         if (MeltProcess >= 0.001f)
         {
             bottomIceCream.localScale = new Vector3(MeltProcess * size, 1, MeltProcess * size);
@@ -46,8 +51,9 @@ public class MeltShaderController : MonoBehaviour
         }
     }
 
-    public float GetMelyProgress()
-    {
-        return material.GetFloat(Mat_MeltProgress);
-    }
+    // public float GetMelyProgress()
+    // {
+    //     foreach (var mat)
+    //     return materials.GetFloat(Mat_MeltProgress);
+    // }
 }

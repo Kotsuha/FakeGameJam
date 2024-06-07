@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 6732902921667122655}
   - component: {fileID: 6714888544710383057}
   - component: {fileID: 5906921554644143226}
+  - component: {fileID: 6535676642925898639}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -265,6 +266,23 @@ MonoBehaviour:
   hpMax: 100
   meltInterval: 0.02
   meltDamage: 0.1
+  playerAnimController: {fileID: 6535676642925898639}
+  onHpBecomeZero:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6535676642925898639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6663023720652838368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bc994b0a3981054780db6cc47956fe6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meltShaderController: {fileID: 8458443463995689894}
 --- !u!1 &7566561818318284937
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,6 +486,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4717883573414169486}
     m_Modifications:
+    - target: {fileID: 1211378999978042757, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
+      propertyPath: size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211378999978042757, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
+      propertyPath: MeltProcess
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211378999978042757, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
+      propertyPath: bottomIceCream
+      value: 
+      objectReference: {fileID: 3137587821259375322}
     - target: {fileID: 2435486025028547400, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
       propertyPath: m_Name
       value: Vanilla_Ice_Cream_15
@@ -546,3 +576,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3064493999154883058, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
   m_PrefabInstance: {fileID: 7326726901299359267}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8458443463995689894 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1211378999978042757, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
+  m_PrefabInstance: {fileID: 7326726901299359267}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e5f735325d645c6b6cc59d66a8c0ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

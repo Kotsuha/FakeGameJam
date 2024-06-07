@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using SaintsField;
-using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,7 +20,10 @@ public class Player : MonoBehaviour,  IEventAggregator
     [SerializeField] private float meltDamage = 1;
 
     [SerializeField]
-    private UnityEvent onHpBecomeZero;
+    private PlayerAnimController playerAnimController;
+
+    // [SerializeField] private UnityEvent<float> onHpDecrease;
+    [SerializeField] private UnityEvent onHpBecomeZero;
 
     private float nextMeltTime;
 
@@ -37,6 +39,8 @@ public class Player : MonoBehaviour,  IEventAggregator
         Func<(float hp, float hpMax)> func = OnHpChanged;
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.HpChanged, func);
         nextMeltTime = Time.time + meltInterval;
+
+        playerAnimController = GetComponent<PlayerAnimController>();
     }
 
     void Update()
@@ -49,6 +53,9 @@ public class Player : MonoBehaviour,  IEventAggregator
                 OnPlayerAttacked(meltDamage); // 主角自己就會一直扣血
             }
         }
+
+            var hpRatio = hp / hpMax;
+            playerAnimController.UpdateMeltingAnim(hpRatio);
     }
 
     private (float hp, float hpMax) OnHpChanged()
