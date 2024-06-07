@@ -6,7 +6,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour,  IEventAggregator
 {
-    [AboveButton(nameof(TestAttackOne))]
+    [AboveButton(nameof(TestAttack1))]
+    [AboveButton(nameof(TestAttack10))]
+    [AboveButton(nameof(TestAttack50))]
+    [AboveButton(nameof(TestAttack200))]
     [SerializeField] private float hp;
     [SerializeField] private float hpMax;
 
@@ -23,7 +26,7 @@ public class Player : MonoBehaviour,  IEventAggregator
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.HpChanged, func);
     }
 
-    private (float, float) OnHpChanged()
+    private (float hp, float hpMax) OnHpChanged()
     {
         return (hp, hpMax);
     }
@@ -41,8 +44,8 @@ public class Player : MonoBehaviour,  IEventAggregator
         }
     }
 
-    private void TestAttackOne()
-    {
-        OnPlayerAttacked(1);
-    }
+    private void TestAttack1() => OnPlayerAttacked(1);
+    private void TestAttack10() => OnPlayerAttacked(10);
+    private void TestAttack50() => OnPlayerAttacked(50);
+    private void TestAttack200() => OnPlayerAttacked(200);
 }

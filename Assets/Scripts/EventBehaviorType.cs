@@ -5,4 +5,5 @@
     ItemDeBuff,
     GameOver,
     HpChanged,
+    GameStart,
 }
