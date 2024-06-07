@@ -1,17 +1,27 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-public class Enemy : MonoBehaviour
+public interface IEnemy
 {
-    public event Action OnToughEnemy;
+    event Action OnTouchEnemy;
+    void SetStartTarcing(bool isTracing);
+    void SetTarget(ITarget target);
+    void SetSpeed(float value);
+}
 
-    public Transform target;
+[RequireComponent(typeof(Collider))]
+public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
+{
+    public event Action OnTouchEnemy;
 
-    public bool IsTracing => IsTracing;
+    public bool IsTracing => isTracingTarget;
+    public float Speed => speed;
 
+    public string ID => nameof(Enemy);
+
+    public EventType Type => EventType.Enemy;
+
+    ITarget target;
     float speed = 5;
     Collider collider;
 
@@ -21,7 +31,8 @@ public class Enemy : MonoBehaviour
     {
         collider = GetComponent<Collider>();
         isTracingTarget = true;
-
+        Action eatPlayerAction = EatPlayer;
+        EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.EnemyAttack, eatPlayerAction);
     }
 
     private void Update()
@@ -39,11 +50,25 @@ public class Enemy : MonoBehaviour
         isTracingTarget = isTracing;
     }
 
+    public void SetSpeed(float value)
+    {
+        speed = value;
+    }
+
+    public void SetTarget(ITarget target)
+    {
+        this.target = target;
+    }
 
 
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Enter");
-        OnToughEnemy?.Invoke();
+        OnTouchEnemy?.Invoke();
+    }
+
+    private void EatPlayer()
+    {
+        Debug.Log("Eat player");
     }
 }
