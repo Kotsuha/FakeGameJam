@@ -261,6 +261,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 100
   hpMax: 100
+  meltInterval: 0.02
+  meltDamage: 0.1
 --- !u!1 &7566561818318284937
 GameObject:
   m_ObjectHideFlags: 0

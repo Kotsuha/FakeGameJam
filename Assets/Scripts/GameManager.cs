@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, IEventAggregator
 {
@@ -17,6 +19,20 @@ public class GameManager : MonoBehaviour, IEventAggregator
             instance = new GameObject(nameof(GameManager)).AddComponent<GameManager>();
         }
         return instance;
+    }
+
+    private void InitEverything()
+    {
+        var allRootGos = SceneManager.GetActiveScene().GetRootGameObjects();
+        foreach (var go in allRootGos)
+        {
+            var enemy = go.GetComponentInChildren<EnemyControl>();
+            if (enemy)
+            {
+                enemy.Init();
+                break;
+            }
+        }
     }
 
     void Awake()
@@ -43,9 +59,11 @@ public class GameManager : MonoBehaviour, IEventAggregator
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.GameOver, action);
 
         EventAggregator.Instance.OnTrigger += OnEventTriggered;
+
+        InitEverything();
     }
 
-    private void OnGameOver() {}
+    private void OnGameOver() { }
 
     void OnDestroy()
     {
