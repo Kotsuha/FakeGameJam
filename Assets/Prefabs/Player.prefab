@@ -466,6 +466,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4717883573414169486}
     m_Modifications:
+    - target: {fileID: 1211378999978042757, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
+      propertyPath: size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211378999978042757, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
+      propertyPath: bottomIceCream
+      value: 
+      objectReference: {fileID: 3137587821259375322}
     - target: {fileID: 2435486025028547400, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
       propertyPath: m_Name
       value: Vanilla_Ice_Cream_15

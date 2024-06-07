@@ -10,6 +10,7 @@ public class MeltShaderController : MonoBehaviour
     Material material;
 
     readonly string Mat_MeltProgress = "_MeltProgress";
+    readonly string GroundLayer = "Ground";
 
     [Range(0, 1)]
     public float MeltProcess;
@@ -30,17 +31,29 @@ public class MeltShaderController : MonoBehaviour
     private void Update()
     {
         SetMeltProgress(MeltProcess);
+
     }
 
+
+    private void PositionBottomIceCream()
+    {
+        RaycastHit hit;
+        Vector3 rayOrigin = transform.position + Vector3.up * 100;
+        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, Mathf.Infinity, layerMask: LayerMask.GetMask(GroundLayer)))
+        {
+            bottomIceCream.position = hit.point;
+        }
+    }
 
     public void SetMeltProgress(float value)
     {
         material.SetFloat(Mat_MeltProgress, value);
         if (MeltProcess >= 0.001f)
         {
+            PositionBottomIceCream();
             bottomIceCream.localScale = new Vector3(MeltProcess * size, 1, MeltProcess * size);
         }
-        else if(MeltProcess <= 0.001f)
+        else if (MeltProcess <= 0.001f)
         {
             bottomIceCream.localScale = Vector3.zero;
         }
