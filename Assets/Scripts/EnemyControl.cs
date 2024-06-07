@@ -6,17 +6,13 @@ public class EnemyControl : MonoBehaviour
 {
     public Enemy enemy;
 
-
-    private void Awake()
+    public void Init()
     {
-        enemy = GameObject.Find(nameof(Enemy)).GetComponent<Enemy>();
-
+        enemy = Instantiate(enemy);
+        enemy.transform.position = transform.position;
         enemy.Init();
         enemy.SetStartTarcing(false);
-
-
     }
-
 
     private void Update()
     {
