@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
             EatPlayer();
         }
 
-        if (other.gameObject.name == nameof(Chocolate))
+        if (other.gameObject.name == nameof(Player))
         {
             EatPlayer();
         }

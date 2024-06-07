@@ -4,5 +4,5 @@
     ItemBuff,
     ItemDeBuff,
     GameOver,
-    EetItem,
+    HpChanged,
 }
