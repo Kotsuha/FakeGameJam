@@ -1,33 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
-public enum EventType
-{
-    Item,
-    Enemy,
-    System,
-}
-
-public enum EventBehaviorType
-{
-    EnemyAttack,
-    ItemBuff,
-    ItemDeBuff,
-    GameOver,
-}
-
-public interface IEventAggregator
-{
-    string ID { get; }
-    EventType Type { get; }
-}
-
-
-
-public class EventAggregator
+public class EventAggregator : MonoBehaviour
 {
     Dictionary<(string blockId, EventType addOnType, EventBehaviorType behavior), Delegate> allRegisterEvents;
 
@@ -37,11 +13,16 @@ public class EventAggregator
 
     static EventAggregator instance;
 
-    public void Init()
+    private void Awake()
     {
-        if (instance == null)
+        if (instance != null)
+        {
+            Destroy(instance);
+        }
+        else
         {
             instance = this;
+            DontDestroyOnLoad(this);
         }
 
         allRegisterEvents = new Dictionary<(string blockId, EventType addOnType, EventBehaviorType behavior), Delegate>();

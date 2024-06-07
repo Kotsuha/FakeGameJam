@@ -65,6 +65,12 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
     {
         Debug.Log("Enter");
         OnTouchEnemy?.Invoke();
+
+        if (other.gameObject.name == nameof(Chocolate))
+        {
+            EventAggregator.Instance.InvokeRegisterEvent(nameof(Chocolate), EventType.Item, EventBehaviorType.ItemBuff);
+        }
+
     }
 
     private void EatPlayer()
