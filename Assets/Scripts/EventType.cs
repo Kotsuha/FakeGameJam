@@ -3,4 +3,5 @@
     Item,
     Enemy,
     System,
+    Player,
 }
