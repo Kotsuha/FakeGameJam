@@ -4,4 +4,5 @@
     ItemBuff,
     ItemDeBuff,
     GameOver,
+    EetItem,
 }

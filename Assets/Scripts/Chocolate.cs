@@ -13,9 +13,9 @@ public class Chocolate : MonoBehaviour, IBuffItem, IEventAggregator
     public EventType Type => EventType.Item;
 
 
-    private void Awake()
+    private void Start()
     {
-        Action<IPlayer> eatChocolate = Buff;
+        Action eatChocolate = Buff;
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.ItemBuff, eatChocolate);
     }
 
@@ -25,7 +25,7 @@ public class Chocolate : MonoBehaviour, IBuffItem, IEventAggregator
         EventAggregator.Instance.ManualTrigger((ID, EventType.Item, EventBehaviorType.ItemBuff));
     }
 
-    public void Buff(IPlayer player)
+    public void Buff()
     {
         Debug.Log("Eat chocholate");
     }

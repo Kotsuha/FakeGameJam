@@ -23,15 +23,10 @@ public interface IDebuffItem : IItem, IDebuff
 
 public interface IDebuff
 {
-    void DeBuff(IPlayer player);
+    void DeBuff();
 }
 
 public interface IBuff
 {
-    void Buff(IPlayer player);
-}
-
-public interface IPlayer
-{
-
+    void Buff();
 }

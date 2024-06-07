@@ -13,11 +13,11 @@ public class Fire : MonoBehaviour, IDebuffItem, IEventAggregator
 
     private void Awake()
     {
-        Action<IPlayer> attackAction = DeBuff;
+        Action attackAction = DeBuff;
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.ItemDeBuff, attackAction);
     }
 
-    public void DeBuff(IPlayer player)
+    public void DeBuff()
     {
         Debug.Log("Attack");
     }
