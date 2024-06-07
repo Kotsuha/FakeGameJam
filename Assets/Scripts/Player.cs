@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SaintsField;
 using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour,  IEventAggregator
 {
@@ -18,6 +19,9 @@ public class Player : MonoBehaviour,  IEventAggregator
     [SerializeField] private float meltInterval = 3;
     [Tooltip("每一次 melt 傷害多少")]
     [SerializeField] private float meltDamage = 1;
+
+    [SerializeField]
+    private UnityEvent onHpBecomeZero;
 
     private float nextMeltTime;
 
@@ -60,6 +64,11 @@ public class Player : MonoBehaviour,  IEventAggregator
             hp = 0;
         if (hp != oldHp)
         {
+            if (hp == 0)
+            {
+                // 讓冰淇淋融化，或其他血量歸零演出
+                onHpBecomeZero.Invoke();
+            }
             // eventManager.Raise("玩家血改變了", oldHp, newHp);
             EventAggregator.Instance.ManualTrigger(("Player", EventType.Player, EventBehaviorType.HpChanged));
         }
