@@ -256,7 +256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c779104bab7be4d97d1a86cb6444bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLineEnemy: {fileID: 1339410430}
 --- !u!1 &100295988
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,6 +580,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 295154406}
+  - component: {fileID: 295154407}
   m_Layer: 0
   m_Name: === System ===
   m_TagString: Untagged
@@ -606,6 +606,19 @@ Transform:
   - {fileID: 1967523954}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &295154407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295154405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d87202b12e94c9fa22e7aca753ac5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeLineEnemy: {fileID: 1339410430}
 --- !u!43 &303051993
 Mesh:
   m_ObjectHideFlags: 0
@@ -3706,7 +3719,7 @@ PrefabInstance:
     - target: {fileID: 5906921554644143226, guid: ce3fa1a161814364a8f2259a923ade0c, type: 3}
       propertyPath: onHpBecomeZero.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 30966774}
+      objectReference: {fileID: 295154407}
     - target: {fileID: 5906921554644143226, guid: ce3fa1a161814364a8f2259a923ade0c, type: 3}
       propertyPath: onHpBecomeZero.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -3725,7 +3738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5906921554644143226, guid: ce3fa1a161814364a8f2259a923ade0c, type: 3}
       propertyPath: onHpBecomeZero.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
+      value: InitEverything_Scene, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5906921554644143226, guid: ce3fa1a161814364a8f2259a923ade0c, type: 3}
       propertyPath: onHpBecomeZero.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName

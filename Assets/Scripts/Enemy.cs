@@ -35,13 +35,20 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
     AnimatorControl currentAnimator;
     public bool isTracingTarget;
 
-    public void Init()
+    public void Init(int index)
     {
+        for (int i = 0; i < allAnimal.Count; i++)
+        {
+            allAnimal[i].gameObject.SetActive(false);
+        }
+        Debug.Log($"Index   {index}");
+        allAnimal[index].gameObject.SetActive(true);
+
         isTracingTarget = true;
         Action eatPlayerAction = EatPlayer;
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.EnemyAttack, eatPlayerAction);
 
-        currentAnimator = new AnimatorControl(GetComponentInChildren<Animator>());
+        currentAnimator = new AnimatorControl(allAnimal[index]);
         currentAnimator.Play(AnimatorControl.Walk);
         target = EventAggregator.Instance.InvokeRegisterEvent<ITarget>(nameof(Player), EventType.Player, EventBehaviorType.GetSeekTarget);
         attackValue = 100;
@@ -65,7 +72,7 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
             TimelineAsset timeline = (TimelineAsset)playableDirector.playableAsset;
 
             var allTrack = timeline.GetOutputTracks().ToList();
-            currentAnimator = new AnimatorControl(GetComponentsInChildren<Animator>().LastOrDefault(animator=>animator.enabled == true));
+            currentAnimator = new AnimatorControl(GetComponentsInChildren<Animator>().LastOrDefault(animator => animator.enabled == true));
             playableDirector.SetGenericBinding(allTrack[0], currentAnimator.GetAnimator());
             target = EventAggregator.Instance.InvokeRegisterEvent<ITarget>(nameof(Player), EventType.Player, EventBehaviorType.GetSeekTarget);
             playableDirector.SetGenericBinding(allTrack[1], target.Trans);
@@ -103,7 +110,7 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
 
         RaycastHit hit;
         Vector3 rayOrigin = transform.position + Vector3.up * 10;
-        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 300, layerMask: LayerMask.GetMask(GameManager.GetInstance().GetEnv().GroundLayer)))
+        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 300, layerMask: LayerMask.GetMask(Env.GroundLayer)))
         {
             transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
         }

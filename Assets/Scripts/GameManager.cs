@@ -1,11 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.SceneManagement;
-using UnityEngine.Timeline;
 
 public class GameManager : MonoBehaviour, IEventAggregator
 {
@@ -14,11 +8,6 @@ public class GameManager : MonoBehaviour, IEventAggregator
     public string ID => nameof(GameManager);
     public EventType Type => EventType.System;
 
-    Env env;
-    EnemyControl enemy;
-
-    [SerializeField] Enemy timeLineEnemy;
-
     public static GameManager GetInstance()
     {
         if (!instance)
@@ -26,22 +15,6 @@ public class GameManager : MonoBehaviour, IEventAggregator
             instance = new GameObject(nameof(GameManager)).AddComponent<GameManager>();
         }
         return instance;
-    }
-
-    private void InitEverything()
-    {
-        var allRootGos = SceneManager.GetActiveScene().GetRootGameObjects();
-        foreach (var go in allRootGos)
-        {
-            enemy = go.GetComponentInChildren<EnemyControl>();
-            if (enemy)
-            {
-                enemy.Init();
-                break;
-            }
-        }
-
-        env = new Env();
     }
 
     void Awake()
@@ -69,45 +42,15 @@ public class GameManager : MonoBehaviour, IEventAggregator
 
         EventAggregator.Instance.OnTrigger += OnEventTriggered;
 
-        InitEverything();
     }
 
     private void OnGameOver()
     {
     }
 
-
-    public void ChangeAnimatorWBeforePlayTimeLine()
-    {
-        if (timeLineEnemy.PlayableDirector != null)
-        {
-            timeLineEnemy.SetIsGameOver(true);
-            timeLineEnemy.PlayableDirector.Stop();
-            TimelineAsset timeline = (TimelineAsset)timeLineEnemy.PlayableDirector.playableAsset;
-
-            var allTrack = timeline.GetOutputTracks().ToList();
-            var currentAnimator = new AnimatorControl(timeLineEnemy.GetComponentsInChildren<Animator>().LastOrDefault(animator => animator.enabled == true));
-
-            timeLineEnemy.PlayableDirector.SetGenericBinding(allTrack[0], currentAnimator.GetAnimator());
-            var target = EventAggregator.Instance.InvokeRegisterEvent<ITarget>(nameof(Player), EventType.Player, EventBehaviorType.GetSeekTarget);
-            timeLineEnemy.PlayableDirector.SetGenericBinding(allTrack[1], target.Trans.gameObject);
-            timeLineEnemy.PlayableDirector.SetGenericBinding(allTrack[2], target.Animator);
-            timeLineEnemy.PlayableDirector.SetGenericBinding(allTrack[3], target.Animator);
-
-            timeLineEnemy.PlayableDirector.Play();
-        }
-        Debug.Log("關掉", enemy.enemy);
-        enemy.enemy.gameObject.SetActive(false);
-    }
-
     void OnDestroy()
     {
         EventAggregator.Instance.OnTrigger -= OnEventTriggered;
-    }
-
-    public Env GetEnv()
-    {
-        return env;
     }
 
     private void OnEventTriggered((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
@@ -129,7 +72,7 @@ public class GameManager : MonoBehaviour, IEventAggregator
 }
 
 
-public class Env
+public static class Env
 {
-    public readonly string GroundLayer = "Ground";
+    public static readonly string GroundLayer = "Ground";
 }
