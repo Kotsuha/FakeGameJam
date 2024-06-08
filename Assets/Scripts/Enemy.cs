@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
     public event Action OnTouchEnemy;
     [SerializeField] List<Animator> allAnimal;
     [SerializeField] PlayableDirector playableDirector;
+    [SerializeField] private float speed = 5;
 
     public bool IsTracing => isTracingTarget;
     public float Speed => speed;
@@ -31,7 +32,6 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
     public PlayableDirector PlayableDirector => playableDirector;
 
     ITarget target;
-    float speed = 5;
     AnimatorControl currentAnimator;
     public bool isTracingTarget;
 
