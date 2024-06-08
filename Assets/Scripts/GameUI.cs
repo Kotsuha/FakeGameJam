@@ -1,10 +1,22 @@
+using DG.Tweening;
 using SaintsField;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
+    [BelowButton(nameof(Test_ShowGameTitle))]
+    [BelowButton(nameof(Test_HideGameTitle))]
+    [SerializeField] private RectTransform titleGroupRectTransform;
+    [SerializeField] private CanvasGroup titleGroupCanvasGroup;
+    [SerializeField] private RectTransform titleTextGroup;
+    [SerializeField] private Button titleButtonGameStart;
+    [SerializeField] private EventTrigger titleButtonStartEventTrigger;
+    [SerializeField] private Button titleButtonGameExit;
+    [SerializeField] private EventTrigger titleButtonExitEventTrigger;
+
     [BelowButton(nameof(Test_SetHpBarRatio_0))]
     [BelowButton(nameof(Test_SetHpBarRatio_0p5))]
     [BelowButton(nameof(Test_SetHpBarRatio_1))]
@@ -23,6 +35,19 @@ public class GameUI : MonoBehaviour
     void Start()
     {
         EventAggregator.Instance.OnTrigger += OnEventTriggered;
+
+        Vector3 titleTextGroupInitialScale = titleTextGroup.transform.localScale;
+        Vector3 titleTextGroupTweenScale = titleTextGroupInitialScale * 1.5f;
+        titleTextGroup.transform.DOScale(titleTextGroupTweenScale, 1).SetLoops(-1, LoopType.Yoyo);
+
+        titleButtonGameStart.onClick.AddListener(() =>
+        {
+            // 待補
+        });
+        titleButtonGameExit.onClick.AddListener(() =>
+        {
+            // 待補
+        });
     }
 
     void OnDestroy()
@@ -88,6 +113,20 @@ public class GameUI : MonoBehaviour
         gameOver.gameObject.SetActive(false);
     }
 
+    public void ShowGameTitle()
+    {
+        titleGroupRectTransform.gameObject.SetActive(true);
+        titleGroupCanvasGroup.alpha = 0;
+        titleGroupCanvasGroup.DOFade(1, 0.3f);
+    }
+
+    public void HideGameTitle()
+    {
+        titleGroupCanvasGroup.DOKill();
+        titleGroupCanvasGroup.alpha = 0;
+        titleGroupRectTransform.gameObject.SetActive(false);
+    }
+
     private void Test_SetHpBarRatio_0() => SetHpBarRatio(0);
     private void Test_SetHpBarRatio_1() => SetHpBarRatio(1);
     private void Test_SetHpBarRatio_0p5() => SetHpBarRatio(0.5f);
@@ -96,4 +135,6 @@ public class GameUI : MonoBehaviour
     private void Test_SetScore_100() => SetScore(100);
     private void Test_ShowGameOver() => ShowGameOver();
     private void Test_HideGameOver() => HideGameOver();
+    private void Test_ShowGameTitle() => ShowGameTitle();
+    private void Test_HideGameTitle() => HideGameTitle();
 }
