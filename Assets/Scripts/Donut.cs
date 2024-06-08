@@ -1,11 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
-public class Donut : MonoBehaviour, IBuffItem, IEventAggregator
+public class Donut : ItemBase, IBuffItem, IEventAggregator
 {
-    public event Action<string> OnGetItem;
+    public override event Action<string> OnGetItem;
 
-    public string Name => nameof(Donut);
+    public override string Name => nameof(Donut);
     public string ID => nameof(Donut);
     public EventType Type => EventType.Item;
 
@@ -23,6 +24,8 @@ public class Donut : MonoBehaviour, IBuffItem, IEventAggregator
         if (other.gameObject.name == nameof(Player))
         {
             var player = other.gameObject.GetComponent<IPlayer>();
+            SetEffect(true);
+            DestroyAsync(300).Forget();
             player.AddHp(7);
         }
     }

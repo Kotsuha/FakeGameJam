@@ -217,8 +217,18 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
         isTracingTarget = true;
     }
 
+    public void SetIsGameOver(bool isOver)
+    {
+        isGameOver = isOver;
+    }
+
     private void EatPlayer()
     {
+        if (isGameOver)
+        {
+            return;
+        }
+
         Debug.Log("Eat player");
         currentAnimator.Play(AnimatorControl.Eat);
         isTracingTarget = false;
@@ -226,6 +236,11 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
 
     private void EatFood()
     {
+        if (isGameOver)
+        {
+            return;
+        }
+
         currentAnimator.Play(AnimatorControl.Eat);
     }
 

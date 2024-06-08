@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fire : MonoBehaviour, IDebuffItem, IEventAggregator
+public class Fire : ItemBase, IDebuffItem, IEventAggregator
 {
-    public event Action<string> OnGetItem;
+    public override event Action<string> OnGetItem;
 
-    public string Name => nameof(Fire);
+    public override string Name => nameof(Fire);
     public EventType Type => EventType.Item;
     public string ID => Name;
 

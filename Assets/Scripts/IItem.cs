@@ -4,6 +4,7 @@ public interface IItem
 {
     event Action<string> OnGetItem;
     string Name { get; }
+    void SetEffect(bool isShow);
 }
 
 

@@ -1,11 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
-public class MilkChocolate_Poison : MonoBehaviour, IDebuff, IEventAggregator
+public class MilkChocolate_Poison : ItemBase, IDebuff, IEventAggregator
 {
-    public event Action<string> OnGetItem;
+    public override event Action<string> OnGetItem;
 
-    public string Name => nameof(MilkChocolate_Poison);
+    public override string Name => nameof(MilkChocolate_Poison);
     public string ID => nameof(MilkChocolate_Poison);
     public EventType Type => EventType.Item;
 
@@ -24,6 +25,8 @@ public class MilkChocolate_Poison : MonoBehaviour, IDebuff, IEventAggregator
         {
             var player = other.gameObject.GetComponent<IPlayer>();
             player.Attacked(12);
+            SetEffect(true);
+            DestroyAsync(1000).Forget();
         }
     }
 

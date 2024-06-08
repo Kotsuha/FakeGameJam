@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour, IEventAggregator
     {
         if (timeLineEnemy.PlayableDirector != null)
         {
+            timeLineEnemy.SetIsGameOver(true);
             timeLineEnemy.PlayableDirector.Stop();
             TimelineAsset timeline = (TimelineAsset)timeLineEnemy.PlayableDirector.playableAsset;
 

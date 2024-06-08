@@ -1,11 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
-public class Chocolate_Poison : MonoBehaviour, IDebuff, IEventAggregator
+public class Chocolate_Poison : ItemBase, IDebuff, IEventAggregator
 {
-    public event Action<string> OnGetItem;
+    public override event Action<string> OnGetItem;
 
-    public string Name => nameof(Chocolate_Poison);
+    public override string Name => nameof(Chocolate_Poison);
     public string ID => nameof(Chocolate_Poison);
     public EventType Type => EventType.Item;
 
@@ -24,6 +25,8 @@ public class Chocolate_Poison : MonoBehaviour, IDebuff, IEventAggregator
         {
             var player = other.gameObject.GetComponent<IPlayer>();
             player.Attacked(30);
+            SetEffect(true);
+            DestroyAsync(1000).Forget();
         }
     }
 
