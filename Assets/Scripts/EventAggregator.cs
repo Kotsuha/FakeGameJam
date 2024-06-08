@@ -22,6 +22,7 @@ public class EventAggregator : MonoBehaviour
         else
         {
             instance = this;
+            transform.SetParent(null);
             DontDestroyOnLoad(this);
         }
 
