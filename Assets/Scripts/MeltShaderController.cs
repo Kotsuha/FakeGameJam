@@ -28,7 +28,7 @@ public class MeltShaderController : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 rayOrigin = transform.position + Vector3.up * 100;
-        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, Mathf.Infinity, layerMask: LayerMask.GetMask(GameManager.GetInstance().GetEnv().GroundLayer)))
+        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, Mathf.Infinity, layerMask: LayerMask.GetMask(GameManager.GroundLayer)))
         {
             bottomIceCream.position = hit.point;
         }

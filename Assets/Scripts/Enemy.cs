@@ -103,7 +103,7 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
 
         RaycastHit hit;
         Vector3 rayOrigin = transform.position + Vector3.up * 10;
-        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 300, layerMask: LayerMask.GetMask(GameManager.GetInstance().GetEnv().GroundLayer)))
+        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 300, layerMask: LayerMask.GetMask(GameManager.GroundLayer)))
         {
             transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
         }
