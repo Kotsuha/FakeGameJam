@@ -10,6 +10,7 @@ public interface IEnemy
     void SetStartTarcing(bool isTracing);
     void SetTarget(ITarget target);
     void SetSpeed(float value);
+    float AttackPlayer();
 }
 
 [RequireComponent(typeof(Collider))]
@@ -38,11 +39,34 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
         currentAnimator = new AnimatorControl(GetComponentInChildren<Animator>());
         currentAnimator.Play(AnimatorControl.Walk);
         target = EventAggregator.Instance.InvokeRegisterEvent<ITarget>(nameof(Player), EventType.Player, EventBehaviorType.GetSeekTarget);
+        attackValue = 30;
 
+        EventAggregator.Instance.OnTrigger += DoGameOver;
     }
+
+    private void DoGameOver((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
+    {
+        if (tuple.id == nameof(GameManager) && tuple.eventType == EventType.System && tuple.behaviorType == EventBehaviorType.GameOver)
+        {
+            OnGameOver(tuple);
+        }
+    }
+
+    private void OnGameOver((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
+    {
+        isTracingTarget = false;
+        currentAnimator.Play(AnimatorControl.Spin);
+        isGameOver = true;
+    }
+
+    bool isGameOver = false;
 
     private void Update()
     {
+        if(isGameOver)
+        {
+            return;
+        }
         if (isTracingTarget)
         {
             currentAnimator.Play(AnimatorControl.Walk);
@@ -107,6 +131,11 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isGameOver)
+        {
+            return;
+        }
+
         Debug.Log("Enter");
         OnTouchEnemy?.Invoke();
 
@@ -115,19 +144,45 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
             EventAggregator.Instance.InvokeRegisterEvent(nameof(Chocolate), EventType.Item, EventBehaviorType.ItemBuff);
             EatPlayer();
         }
+
+        if (other.gameObject.name == nameof(Player))
+        {
+            var player = other.gameObject.GetComponent<IPlayer>();
+            player.Attack(AttackPlayer());
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
+        if (isGameOver)
+        {
+            return;
+        }
+
         if (other.gameObject.name == nameof(Player))
         {
             EatPlayer();
         }
     }
 
+    public void SetAttackValue(float value)
+    {
+        attackValue = value;
+    }
+
+    float attackValue = 30;
+    public float AttackPlayer()
+    {
+        return attackValue;
+    }
 
     private void OnTriggerExit(Collider other)
     {
+        if (isGameOver)
+        {
+            return;
+        }
+
         currentAnimator.Play(currentAnimator.GetRandomIdle());
         ReSeekTrget().Forget();
     }
@@ -151,6 +206,9 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
     {
         currentAnimator.Play(AnimatorControl.Eat);
     }
+
+
+    
 }
 
 

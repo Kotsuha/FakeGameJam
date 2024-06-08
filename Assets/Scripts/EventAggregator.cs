@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class EventAggregator : MonoBehaviour
 {
-    Dictionary<(string blockId, EventType addOnType, EventBehaviorType behavior), Delegate> allRegisterEvents;
+    Dictionary<(string id, EventType type, EventBehaviorType behavior), Delegate> allRegisterEvents;
 
-    public event Action<(string blockId, EventType addonEventType, EventBehaviorType behaviorType)> OnTrigger;
+    public event Action<(string id, EventType eventType, EventBehaviorType behaviorType)> OnTrigger;
 
     public static EventAggregator Instance => instance;
 
