@@ -1,11 +1,12 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class Chocolate : MonoBehaviour, IBuffItem, IEventAggregator
+public class Chocolate : ItemBase, IBuffItem, IEventAggregator
 {
-    public event Action<string> OnGetItem;
+    public override event Action<string> OnGetItem;
 
-    public string Name => nameof(Chocolate);
+    public override string Name => nameof(Chocolate);
     public string ID => nameof(Chocolate);
     public EventType Type => EventType.Item;
 
@@ -24,6 +25,8 @@ public class Chocolate : MonoBehaviour, IBuffItem, IEventAggregator
         {
             var player = other.gameObject.GetComponent<IPlayer>();
             player.AddHp(30);
+            SetEffect(true);
+            DestroyAsync(300    ).Forget();
         }
     }
 
@@ -31,5 +34,4 @@ public class Chocolate : MonoBehaviour, IBuffItem, IEventAggregator
     {
         Debug.Log("Eat chocholate");
     }
-
 }

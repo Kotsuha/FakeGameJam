@@ -34,6 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6929964887345574933}
+  - {fileID: 8780313082235745161}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2529633226063997784
@@ -117,6 +118,80 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e59d41304d45e4704b215813929aa95c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cFXR_Effect: {fileID: 8780313082235745162}
+--- !u!1001 &3527516009177000372
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 242344371487520486}
+    m_Modifications:
+    - target: {fileID: 5273065509064006146, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_Name
+      value: CFXR3 Hit Ice B (Air)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+--- !u!4 &8780313082235745161 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5273065509064006205, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+  m_PrefabInstance: {fileID: 3527516009177000372}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8780313082235745162 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5273065509064006206, guid: c916d1da4152a42fbba4f90344bef50d, type: 3}
+  m_PrefabInstance: {fileID: 3527516009177000372}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9205bc1bbacc90040a998067b5643d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &9055137944563273452

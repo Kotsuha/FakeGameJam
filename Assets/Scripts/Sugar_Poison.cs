@@ -1,11 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
-public class Sugar_Poison : MonoBehaviour, IDebuff, IEventAggregator
+public class Sugar_Poison : ItemBase, IDebuff, IEventAggregator
 {
-    public event Action<string> OnGetItem;
+    public override event Action<string> OnGetItem;
 
-    public string Name => nameof(Sugar_Poison);
+    public override string Name => nameof(Sugar_Poison);
     public string ID => nameof(Sugar_Poison);
     public EventType Type => EventType.Item;
 
@@ -24,6 +25,8 @@ public class Sugar_Poison : MonoBehaviour, IDebuff, IEventAggregator
         {
             var player = other.gameObject.GetComponent<IPlayer>();
             player.Attacked(6);
+            SetEffect(true);
+            DestroyAsync(1000).Forget();
         }
     }
 

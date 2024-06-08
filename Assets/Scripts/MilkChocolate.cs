@@ -1,11 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
-public class MilkChocolate : MonoBehaviour, IBuffItem, IEventAggregator
+public class MilkChocolate : ItemBase, IBuffItem, IEventAggregator
 {
-    public event Action<string> OnGetItem;
+    public override event Action<string> OnGetItem;
 
-    public string Name => nameof(MilkChocolate);
+    public override string Name => nameof(MilkChocolate);
     public string ID => nameof(MilkChocolate);
     public EventType Type => EventType.Item;
 
@@ -24,6 +25,8 @@ public class MilkChocolate : MonoBehaviour, IBuffItem, IEventAggregator
         {
             var player = other.gameObject.GetComponent<IPlayer>();
             player.AddHp(15);
+            SetEffect(true);
+            DestroyAsync(300).Forget();
         }
     }
 
