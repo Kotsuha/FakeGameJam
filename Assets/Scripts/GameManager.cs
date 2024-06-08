@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour, IEventAggregator
 
             timeLineEnemy.PlayableDirector.Play();
         }
+        Debug.Log("關掉", enemy.enemy);
         enemy.enemy.gameObject.SetActive(false);
     }
 
