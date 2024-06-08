@@ -56,6 +56,11 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
         EventAggregator.Instance.OnTrigger += DoGameOver;
     }
 
+    void OnDestroy()
+    {
+        EventAggregator.Instance.OnTrigger -= DoGameOver;
+    }
+
     private void DoGameOver((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
     {
         if (tuple.id == nameof(GameManager) && tuple.eventType == EventType.System && tuple.behaviorType == EventBehaviorType.GameOver)
