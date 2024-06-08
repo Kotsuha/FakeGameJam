@@ -412,6 +412,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4717883573414169486}
     m_Modifications:
+    - target: {fileID: 7922134131523967342, guid: f6660088805f9d4479331fb3d91d732f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d346d038014784796a64b6047f9e7eca, type: 2}
     - target: {fileID: 8570894850626713787, guid: f6660088805f9d4479331fb3d91d732f, type: 3}
       propertyPath: m_Name
       value: Vanilla_Ice_Cream_7
@@ -434,7 +438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9059623798837617153, guid: f6660088805f9d4479331fb3d91d732f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.44
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9059623798837617153, guid: f6660088805f9d4479331fb3d91d732f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -520,7 +524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3064493999154883058, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.25
+      value: -0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3064493999154883058, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
       propertyPath: m_LocalPosition.z

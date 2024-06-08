@@ -12,6 +12,7 @@ public class MeltShaderController : MonoBehaviour
 
     readonly string Mat_MeltProgress = "_MeltProgress";
 
+
     [Range(0, 1)]
     public float MeltProcess;
     public float size;
@@ -22,6 +23,18 @@ public class MeltShaderController : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         materials = meshRenderer.materials.ToList();
     }
+
+    private void PositionBottomIceCream()
+    {
+        RaycastHit hit;
+        Vector3 rayOrigin = transform.position + Vector3.up * 100;
+        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, Mathf.Infinity, layerMask: LayerMask.GetMask(GameManager.GetInstance().GetEnv().GroundLayer)))
+        {
+            bottomIceCream.position = hit.point;
+        }
+    }
+
+
 
     // public void Init(Material material)
     // {
@@ -44,8 +57,9 @@ public class MeltShaderController : MonoBehaviour
         if (MeltProcess >= 0.001f)
         {
             bottomIceCream.localScale = new Vector3(MeltProcess * size, 1, MeltProcess * size);
+            PositionBottomIceCream();
         }
-        else if(MeltProcess <= 0.001f)
+        else if (MeltProcess <= 0.001f)
         {
             bottomIceCream.localScale = Vector3.zero;
         }

@@ -6,4 +6,5 @@
     GameOver,
     HpChanged,
     GameStart,
+    GetSeekTarget,
 }

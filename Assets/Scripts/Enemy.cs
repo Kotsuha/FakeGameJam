@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -36,6 +37,8 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
 
         currentAnimator = new AnimatorControl(GetComponentInChildren<Animator>());
         currentAnimator.Play(AnimatorControl.Walk);
+        target = EventAggregator.Instance.InvokeRegisterEvent<ITarget>(nameof(Player), EventType.Player, EventBehaviorType.GetSeekTarget);
+
     }
 
     private void Update()
@@ -43,9 +46,35 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
         if (isTracingTarget)
         {
             currentAnimator.Play(AnimatorControl.Walk);
-            transform.Translate(Vector3.right * speed * Time.deltaTime);
+            Seek();
+            //SeekAsync().Forget();
+        }
+    }
+
+    private void Seek()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, target.Trans.position, speed * Time.deltaTime);
+
+        RaycastHit hit;
+        Vector3 rayOrigin = transform.position + Vector3.up * 10;
+        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 300, layerMask: LayerMask.GetMask(GameManager.GetInstance().GetEnv().GroundLayer)))
+        {
+            transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
         }
 
+        Vector3 targetPosition = new Vector3(target.Trans.position.x, transform.position.y, target.Trans.position.z);
+        transform.DOLookAt(targetPosition, speed * Time.deltaTime).SetEase(Ease.InExpo);
+    }
+
+    private async UniTask SeekAsync()
+    {
+        await UniTask.Delay(300);
+        Seek();
+    }
+
+    private float CheckDistance()
+    {
+        return (target.Trans.position - transform.position).magnitude;
     }
 
     public void SetAnimal(int index)
@@ -86,7 +115,10 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
             EventAggregator.Instance.InvokeRegisterEvent(nameof(Chocolate), EventType.Item, EventBehaviorType.ItemBuff);
             EatPlayer();
         }
+    }
 
+    private void OnTriggerStay(Collider other)
+    {
         if (other.gameObject.name == nameof(Player))
         {
             EatPlayer();
@@ -97,6 +129,15 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
     private void OnTriggerExit(Collider other)
     {
         currentAnimator.Play(currentAnimator.GetRandomIdle());
+        ReSeekTrget().Forget();
+    }
+
+    private async UniTask ReSeekTrget()
+    {
+        await UniTask.Delay(1000);
+        currentAnimator.Play(UnityEngine.Random.Range(0, 2) == 1 ? AnimatorControl.Fear : AnimatorControl.Jump);
+        await UniTask.Delay(1000);
+        isTracingTarget = true;
     }
 
     private void EatPlayer()
@@ -123,6 +164,8 @@ public class AnimatorControl
 
     public static readonly string Spin = "Spin";
     public static readonly string Death = "Death";
+    public static readonly string Jump = "Jump";
+    public static readonly string Fear = "Fear";
 
     Animator animator;
     public AnimatorControl(Animator animator)

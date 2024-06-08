@@ -5,7 +5,7 @@ using SaintsField;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Player : MonoBehaviour,  IEventAggregator
+public class Player : MonoBehaviour, IEventAggregator, ITarget
 {
     [AboveButton(nameof(TestAttack1))]
     [AboveButton(nameof(TestAttack10))]
@@ -33,11 +33,16 @@ public class Player : MonoBehaviour,  IEventAggregator
     public string ID => nameof(Player);
     public EventType Type => EventType.Player;
 
+    public Transform Trans => transform;
+
     void Start()
     {
         // eventManager.聽("攻擊玩家", "多少");
         Func<(float hp, float hpMax)> func = OnHpChanged;
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.HpChanged, func);
+        Func<ITarget> seekTarget = () => { return this; };
+        EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.GetSeekTarget, seekTarget);
+
         nextMeltTime = Time.time + meltInterval;
 
         playerAnimController = GetComponent<PlayerAnimController>();
@@ -54,8 +59,8 @@ public class Player : MonoBehaviour,  IEventAggregator
             }
         }
 
-            var hpRatio = hp / hpMax;
-            playerAnimController.UpdateMeltingAnim(hpRatio);
+        var hpRatio = hp / hpMax;
+        playerAnimController.UpdateMeltingAnim(hpRatio);
     }
 
     private (float hp, float hpMax) OnHpChanged()

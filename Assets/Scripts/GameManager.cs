@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour, IEventAggregator
     public string ID => nameof(GameManager);
     public EventType Type => EventType.System;
 
+    Env env;
+
     public static GameManager GetInstance()
     {
         if (!instance)
@@ -33,6 +35,8 @@ public class GameManager : MonoBehaviour, IEventAggregator
                 break;
             }
         }
+
+        env = new Env();
     }
 
     void Awake()
@@ -70,6 +74,11 @@ public class GameManager : MonoBehaviour, IEventAggregator
         EventAggregator.Instance.OnTrigger -= OnEventTriggered;
     }
 
+    public Env GetEnv()
+    {
+        return env;
+    }
+
     private void OnEventTriggered((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
     {
         if (tuple.id == nameof(Player) && tuple.eventType == EventType.Player && tuple.behaviorType == EventBehaviorType.HpChanged)
@@ -86,4 +95,10 @@ public class GameManager : MonoBehaviour, IEventAggregator
             EventAggregator.Instance.ManualTrigger(("GameManager", EventType.System, EventBehaviorType.GameOver));
         }
     }
+}
+
+
+public class Env
+{
+    public readonly string GroundLayer = "Ground";
 }
