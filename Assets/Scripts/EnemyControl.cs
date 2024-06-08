@@ -7,11 +7,11 @@ public class EnemyControl : MonoBehaviour
 {
     public Enemy enemy;
 
-    public void Init()
+    public void Init(int index)
     {
         enemy = Instantiate(enemy);
         enemy.transform.position = transform.position;
-        enemy.Init();
+        enemy.Init(index);
         SetSeekAsync(enemy, true).Forget();
     }
 
