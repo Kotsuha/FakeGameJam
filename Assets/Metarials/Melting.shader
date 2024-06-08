@@ -7,6 +7,9 @@ Shader "Custom/DirectionalMeltingEffectShader"
         _MeltSpeed ("Melt Speed", Range(0.1, 5.0)) = 1.0
         _MeltDirection ("Melt Direction", Vector) = (0, -1, 0, 0) // Default to downward direction
         _MeltProgress ("Melt Progress", Range(0, 1)) = 0.0 // Control melting progress
+        _MaxMeltOffset ("Max Melt Offset", Float) = 1.0 // Maximum melt offset
+        _BottomLimit ("Bottom Limit", Float) = 0.0 // Bottom limit for melting effect
+        _Offset ("Offset", Float) = 0.0 // Offset for melting effect
     }
     SubShader
     {
@@ -15,10 +18,11 @@ Shader "Custom/DirectionalMeltingEffectShader"
 
         Pass
         {
+            Tags { "LightMode"="ForwardBase" }
+            ZTest LEqual
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
             #include "UnityCG.cginc"
 
             struct appdata
@@ -41,6 +45,9 @@ Shader "Custom/DirectionalMeltingEffectShader"
             float _MeltSpeed;
             float4 _MeltDirection; // XYZ for direction, W not used
             float _MeltProgress;
+            float _MaxMeltOffset;
+            float _BottomLimit;
+            float _Offset;
 
             v2f vert (appdata v)
             {
@@ -51,9 +58,19 @@ Shader "Custom/DirectionalMeltingEffectShader"
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
                 // Calculate the melt offset based on world position and direction
-                float meltOffset = dot(_MeltDirection.xyz, o.worldPos) * _MeltProgress;
+                float meltOffset = dot(_MeltDirection.xyz, o.worldPos) * _MeltProgress + _Offset;
 
-                o.vertex.xyz += _MeltDirection.xyz * meltOffset;
+                // Clamp the melt offset to the maximum value
+                meltOffset = min(meltOffset, _MaxMeltOffset);
+
+                // Compute the new vertex position and clamp it to the bottom limit
+                float3 newVertexPos = o.vertex.xyz + _MeltDirection.xyz * meltOffset;
+                if (newVertexPos.y < _BottomLimit)
+                {
+                    newVertexPos.y = _BottomLimit;
+                }
+
+                o.vertex.xyz = newVertexPos;
 
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
