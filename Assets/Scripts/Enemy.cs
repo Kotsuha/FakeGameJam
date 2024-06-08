@@ -281,6 +281,10 @@ public class AnimatorControl
 
     public void Play(string key)
     {
+        if (animator is null || animator == null)
+        {
+            return;
+        }
         animator.Play(key);
     }
 
