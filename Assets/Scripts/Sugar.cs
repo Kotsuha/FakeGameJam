@@ -20,11 +20,17 @@ public class Sugar : MonoBehaviour, IBuffItem, IEventAggregator
     {
         OnGetItem?.Invoke(nameof(Sugar));
         EventAggregator.Instance.ManualTrigger((ID, EventType.Item, EventBehaviorType.ItemBuff));
+
+        if (other.gameObject.name == nameof(Player))
+        {
+            var player = other.gameObject.GetComponent<IPlayer>();
+            player.AddHp(9);
+        }
     }
 
     public void Buff()
     {
         Debug.Log($"Eat {nameof(Sugar)}");
-    }
 
+    }
 }

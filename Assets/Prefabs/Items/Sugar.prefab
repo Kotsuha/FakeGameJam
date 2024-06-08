@@ -183,6 +183,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sugar_Cubes
       objectReference: {fileID: 0}
+    - target: {fileID: 7621304772846572480, guid: df5e3037ec2b1294a94ba8857c2415da, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

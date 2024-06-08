@@ -20,6 +20,11 @@ public class Chocolate : MonoBehaviour, IBuffItem, IEventAggregator
     {
         OnGetItem?.Invoke(nameof(Chocolate));
         EventAggregator.Instance.ManualTrigger((ID, EventType.Item, EventBehaviorType.ItemBuff));
+        if (other.gameObject.name == nameof(Player))
+        {
+            var player = other.gameObject.GetComponent<IPlayer>();
+            player.AddHp(30);
+        }
     }
 
     public void Buff()
