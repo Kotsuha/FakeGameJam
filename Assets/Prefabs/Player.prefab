@@ -185,9 +185,9 @@ MonoBehaviour:
   canControl: 1
   useFixedUpdate: 1
   movement:
-    maxForwardSpeed: 12
-    maxSidewaysSpeed: 12
-    maxBackwardsSpeed: 12
+    maxForwardSpeed: 10
+    maxSidewaysSpeed: 10
+    maxBackwardsSpeed: 10
     slopeSpeedMultiplier:
       serializedVersion: 2
       m_Curve:
@@ -251,6 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf086b3cf33ad141aff4f12fd8dd3f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charaMotor: {fileID: 6732902921667122655}
   hp: 100
   hpMax: 100
   meltInterval: 0.02

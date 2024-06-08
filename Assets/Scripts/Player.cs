@@ -13,6 +13,13 @@ public interface IPlayer
 
 public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
 {
+    [SerializeField]
+    private CharacterMotor charaMotor;
+
+    private float iniSpeed1;
+    private float iniSpeed2;
+    private float iniSpeed3;
+
     [AboveButton(nameof(TestAttack1))]
     [AboveButton(nameof(TestAttack10))]
     [AboveButton(nameof(TestAttack50))]
@@ -56,15 +63,15 @@ public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
         nextMeltTime = Time.time + meltInterval;
 
         playerAnimController = GetComponent<PlayerAnimController>();
+
+        iniSpeed1 = charaMotor.movement.maxForwardSpeed;
+        iniSpeed2 = charaMotor.movement.maxSidewaysSpeed;
+        iniSpeed3 = charaMotor.movement.maxBackwardsSpeed;
     }
 
 
     void Update()
     {
-        if (hp <= 0)
-        {
-            return;
-        }
 
         if (Time.time >= nextMeltTime)
         {
@@ -76,7 +83,26 @@ public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
         }
 
         var hpRatio = hp / hpMax;
-        playerAnimController.UpdateMeltingAnim(hpRatio);
+        if (hp > 0)
+        {
+            playerAnimController.UpdateMeltingAnim(hpRatio);
+        }
+
+        // 如果血量少於一半，移動速度變慢
+        if (hpRatio > 0)
+        {
+            var t = hpRatio + 0.5f;
+            var scale = Mathf.Lerp(0.01f, 1, t);
+            charaMotor.movement.maxForwardSpeed = iniSpeed1 * scale;
+            charaMotor.movement.maxSidewaysSpeed = iniSpeed2 * scale;
+            charaMotor.movement.maxBackwardsSpeed = iniSpeed3 * scale;
+        }
+        else
+        {
+            charaMotor.movement.maxForwardSpeed = 0.001f;
+            charaMotor.movement.maxSidewaysSpeed = 0.001f;
+            charaMotor.movement.maxBackwardsSpeed = 0.001f;
+        }
     }
 
     public void Attacked(float attackPower)

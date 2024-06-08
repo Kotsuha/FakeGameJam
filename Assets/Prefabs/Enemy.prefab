@@ -141,6 +141,7 @@ MonoBehaviour:
   - {fileID: 7639551574670921205}
   - {fileID: 3279229412241661370}
   playableDirector: {fileID: 8742075784008620500}
+  speed: 10
   isTracingTarget: 0
 --- !u!54 &6910505186695867340
 Rigidbody:
