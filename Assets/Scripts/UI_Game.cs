@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour, IEventAggregator
+public class UI_Game : MonoBehaviour, IEventAggregator
 {
     [BelowButton(nameof(Test_ShowGameTitle))]
     [BelowButton(nameof(Test_HideGameTitle))]
@@ -33,7 +33,7 @@ public class GameUI : MonoBehaviour, IEventAggregator
     [BelowButton(nameof(Test_HideGameOver))]
     [SerializeField] private RectTransform gameOver;
 
-    public string ID => nameof(GameUI);
+    public string ID => nameof(UI_Game);
 
     public EventType Type => EventType.System;
 
