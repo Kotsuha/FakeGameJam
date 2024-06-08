@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public interface IEnemy
 {
@@ -18,12 +21,14 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
 {
     public event Action OnTouchEnemy;
     [SerializeField] List<Animator> allAnimal;
+    [SerializeField] PlayableDirector playableDirector;
 
     public bool IsTracing => isTracingTarget;
     public float Speed => speed;
     public string ID => nameof(Enemy);
 
     public EventType Type => EventType.Enemy;
+    public PlayableDirector PlayableDirector => playableDirector;
 
     ITarget target;
     float speed = 5;
@@ -39,7 +44,7 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
         currentAnimator = new AnimatorControl(GetComponentInChildren<Animator>());
         currentAnimator.Play(AnimatorControl.Walk);
         target = EventAggregator.Instance.InvokeRegisterEvent<ITarget>(nameof(Player), EventType.Player, EventBehaviorType.GetSeekTarget);
-        attackValue = 30;
+        attackValue = 100;
 
         EventAggregator.Instance.OnTrigger += DoGameOver;
     }
@@ -49,6 +54,23 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
         if (tuple.id == nameof(GameManager) && tuple.eventType == EventType.System && tuple.behaviorType == EventBehaviorType.GameOver)
         {
             OnGameOver(tuple);
+        }
+    }
+
+
+    private void ChangeAnimatorWBeforePlayTimeLine()
+    {
+        if (playableDirector != null)
+        {
+            TimelineAsset timeline = (TimelineAsset)playableDirector.playableAsset;
+
+            var allTrack = timeline.GetOutputTracks().ToList();
+            currentAnimator = new AnimatorControl(GetComponentsInChildren<Animator>().LastOrDefault(animator=>animator.enabled == true));
+            playableDirector.SetGenericBinding(allTrack[0], currentAnimator.GetAnimator());
+            target = EventAggregator.Instance.InvokeRegisterEvent<ITarget>(nameof(Player), EventType.Player, EventBehaviorType.GetSeekTarget);
+            playableDirector.SetGenericBinding(allTrack[1], target.Trans);
+            playableDirector.SetGenericBinding(allTrack[2], target.Animator);
+            playableDirector.SetGenericBinding(allTrack[3], target.Animator);
         }
     }
 
@@ -63,7 +85,7 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
 
     private void Update()
     {
-        if(isGameOver)
+        if (isGameOver)
         {
             return;
         }
@@ -170,7 +192,7 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
         attackValue = value;
     }
 
-    float attackValue = 30;
+    float attackValue;
     public float AttackPlayer()
     {
         return attackValue;
@@ -208,7 +230,7 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
     }
 
 
-    
+
 }
 
 
@@ -229,6 +251,10 @@ public class AnimatorControl
     public AnimatorControl(Animator animator)
     {
         this.animator = animator;
+    }
+    public Animator GetAnimator()
+    {
+        return animator;
     }
 
     public void Play(string key)
