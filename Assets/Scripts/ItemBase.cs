@@ -25,6 +25,11 @@ public class ItemBase : MonoBehaviour, IItem
     protected virtual async UniTask DestroyAsync(int delay)
     {
         await UniTask.Delay(delay);
-        Destroy(this.gameObject);
+
+        if (this.gameObject != null || this.gameObject is not null)
+        {
+
+            Destroy(this.gameObject);
+        }
     }
 }

@@ -1058,6 +1058,7 @@ MonoBehaviour:
   titleButtonGameExit: {fileID: 8997540085091328547}
   titleButtonExitEventTrigger: {fileID: 0}
   hpBar: {fileID: 4280123367255101154}
+  hpText: {fileID: 8664959759290772384}
   scoreText: {fileID: 7405329337296567111}
   gameOver: {fileID: 2863243009901174287}
 --- !u!1 &5005049902506549190

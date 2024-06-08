@@ -10,12 +10,19 @@ public class Sugar : ItemBase, IBuffItem, IEventAggregator
     public string ID => nameof(Sugar);
     public EventType Type => EventType.Item;
 
-
+    float score;
     private void Start()
     {
         Action eat = Buff;
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.ItemBuff, eat);
+
+
+        Func<float> sendScore = GetScore;
+        EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.Score, sendScore);
+        score = 9;
     }
+
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -25,15 +32,23 @@ public class Sugar : ItemBase, IBuffItem, IEventAggregator
         if (other.gameObject.name == nameof(Player))
         {
             var player = other.gameObject.GetComponent<IPlayer>();
-            player.AddHp(9);
+            player.AddHp(score);
             SetEffect(true);
             DestroyAsync(300).Forget();
         }
+
+        EventAggregator.Instance.ManualTrigger((nameof(Sugar), EventType.Item, EventBehaviorType.Score));
     }
 
     public void Buff()
     {
         Debug.Log($"Eat {nameof(Sugar)}");
+
+    }
+
+    public float GetScore()
+    {
+        return score;
 
     }
 }

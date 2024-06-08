@@ -26,5 +26,6 @@ public class Fire : ItemBase, IDebuffItem, IEventAggregator
     {
         OnGetItem?.Invoke(nameof(Fire));
         EventAggregator.Instance.ManualTrigger((ID, EventType.Item, EventBehaviorType.ItemDeBuff));
+
     }
 }
