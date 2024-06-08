@@ -4,10 +4,12 @@ using SaintsField;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_Game : MonoBehaviour, IEventAggregator
 {
+    [Header("HP & Score")]
     [BelowButton(nameof(Test_SetHpBarRatio_0))]
     [BelowButton(nameof(Test_SetHpBarRatio_0p5))]
     [BelowButton(nameof(Test_SetHpBarRatio_1))]
@@ -19,9 +21,14 @@ public class UI_Game : MonoBehaviour, IEventAggregator
     [BelowButton(nameof(Test_SetScore_100))]
     [SerializeField] private TMP_Text scoreText;
 
+    [Header("Game Over")]
     [BelowButton(nameof(Test_ShowGameOver))]
     [BelowButton(nameof(Test_HideGameOver))]
     [SerializeField] private RectTransform gameOver;
+    [SerializeField] private Button restartYesButton;
+    [SerializeField] private Button restartNoButton;
+    [SerializeField] private SceneReference titleScene;
+    [SerializeField] private SceneReference gameScene;
 
     public string ID => nameof(UI_Game);
 
@@ -35,6 +42,15 @@ public class UI_Game : MonoBehaviour, IEventAggregator
         EventAggregator.Instance.OnTrigger += OnEventTriggered;
 
         score = 0;
+
+        restartYesButton.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(gameScene);
+        });
+        restartNoButton.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(titleScene);
+        });
     }
 
     void OnDestroy()
