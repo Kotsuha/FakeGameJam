@@ -10,7 +10,7 @@ public interface IItem
 
 public interface IBuffItem : IItem, IBuff
 {
-
+    float GetScore();
 }
 
 

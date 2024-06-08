@@ -7,4 +7,5 @@
     HpChanged,
     GameStart,
     GetSeekTarget,
+    Score,
 }

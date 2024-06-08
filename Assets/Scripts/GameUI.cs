@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using SaintsField;
 using TMPro;
@@ -5,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour
+public class GameUI : MonoBehaviour, IEventAggregator
 {
     [BelowButton(nameof(Test_ShowGameTitle))]
     [BelowButton(nameof(Test_HideGameTitle))]
@@ -21,6 +22,7 @@ public class GameUI : MonoBehaviour
     [BelowButton(nameof(Test_SetHpBarRatio_0p5))]
     [BelowButton(nameof(Test_SetHpBarRatio_1))]
     [SerializeField] private Image hpBar;
+    [SerializeField] private TMP_Text hpText;
 
     [BelowButton(nameof(Test_SetScore_0))]
     [BelowButton(nameof(Test_SetScore_50))]
@@ -30,6 +32,12 @@ public class GameUI : MonoBehaviour
     [BelowButton(nameof(Test_ShowGameOver))]
     [BelowButton(nameof(Test_HideGameOver))]
     [SerializeField] private RectTransform gameOver;
+
+    public string ID => nameof(GameUI);
+
+    public EventType Type => EventType.System;
+
+    float score;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +56,8 @@ public class GameUI : MonoBehaviour
         {
             // 待補
         });
+
+        score = 0;
     }
 
     void OnDestroy()
@@ -72,6 +82,14 @@ public class GameUI : MonoBehaviour
         {
             OnGameStart(tuple);
         }
+
+        if (tuple.eventType == EventType.Item && tuple.behaviorType == EventBehaviorType.Score)
+        {
+            var itemScore = EventAggregator.Instance.InvokeRegisterEvent<float>(tuple.id, EventType.Item, EventBehaviorType.Score);
+            Debug.Log("Get Score");
+            score += itemScore;
+            SetScore(score);
+        }
     }
 
     private void OnPlayerHpChanged((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
@@ -79,6 +97,13 @@ public class GameUI : MonoBehaviour
         var (hp, hpMax) = EventAggregator.Instance.InvokeRegisterEvent<(float hp, float hpMax)>(tuple.id, tuple.eventType, tuple.behaviorType);
         var ratio = hp / hpMax;
         SetHpBarRatio(ratio);
+        var hpText = ratio * 100;
+        SetHpText(hp == 0 ? "0" : hp == 100 ? "100" : Mathf.FloorToInt(hpText).ToString());
+    }
+
+    private void SetHpText(string text)
+    {
+        hpText.text = text;
     }
 
     private void OnGameOver((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
