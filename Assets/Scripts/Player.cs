@@ -7,7 +7,8 @@ using UnityEngine.Events;
 
 public interface IPlayer
 {
-    void Attack(float attackPower);
+    void Attacked(float attackPower);
+    void AddHp(float value);
 }
 
 public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
@@ -29,7 +30,6 @@ public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
 
     // [SerializeField] private UnityEvent<float> onHpDecrease;
     [SerializeField] private UnityEvent onHpBecomeZero;
-    [SerializeField] private Transform timeLineTarget;
 
     private float nextMeltTime;
 
@@ -50,19 +50,14 @@ public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.HpChanged, func);
         Func<ITarget> seekTarget = () => { return this; };
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.GetSeekTarget, seekTarget);
-        Action<float> attack = Attack;
+        Action<float> attack = Attacked;
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.EnemyAttack, attack);
 
         nextMeltTime = Time.time + meltInterval;
 
         playerAnimController = GetComponent<PlayerAnimController>();
-        onHpBecomeZero.AddListener(ShowTimeLineTarget);
     }
 
-    private void ShowTimeLineTarget()
-    {
-        timeLineTarget.gameObject.SetActive(true);
-    }
 
     void Update()
     {
@@ -84,7 +79,7 @@ public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
         playerAnimController.UpdateMeltingAnim(hpRatio);
     }
 
-    public void Attack(float attackPower)
+    public void Attacked(float attackPower)
     {
         OnPlayerAttacked(attackPower);
     }
@@ -113,8 +108,26 @@ public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
         }
     }
 
+    private void OnPlayerHpAdded(float addValue)
+    {
+        float oldHp = hp;
+        hp += addValue;
+        if (hp >= 100)
+            hp = 100;
+        if (hp != oldHp)
+        {
+            EventAggregator.Instance.ManualTrigger(("Player", EventType.Player, EventBehaviorType.HpChanged));
+        }
+    }
+
+
     private void TestAttack1() => OnPlayerAttacked(1);
     private void TestAttack10() => OnPlayerAttacked(10);
     private void TestAttack50() => OnPlayerAttacked(50);
     private void TestAttack200() => OnPlayerAttacked(200);
+
+    public void AddHp(float value)
+    {
+        OnPlayerHpAdded(value);
+    }
 }

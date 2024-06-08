@@ -20,6 +20,11 @@ public class Donut : MonoBehaviour, IBuffItem, IEventAggregator
     {
         OnGetItem?.Invoke(nameof(Donut));
         EventAggregator.Instance.ManualTrigger((ID, EventType.Item, EventBehaviorType.ItemBuff));
+        if (other.gameObject.name == nameof(Player))
+        {
+            var player = other.gameObject.GetComponent<IPlayer>();
+            player.AddHp(7);
+        }
     }
 
     public void Buff()

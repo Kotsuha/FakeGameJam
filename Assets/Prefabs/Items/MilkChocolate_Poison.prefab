@@ -242,6 +242,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7493191094614571061, guid: 72bf6a5262d845944b10ff1769b55529, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8062384459287897740, guid: 72bf6a5262d845944b10ff1769b55529, type: 3}
       propertyPath: m_Name
       value: Milk_Chocolate_Bar_2

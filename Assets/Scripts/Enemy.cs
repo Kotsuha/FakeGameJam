@@ -170,7 +170,7 @@ public class Enemy : MonoBehaviour, IEnemy, IEventAggregator
         if (other.gameObject.name == nameof(Player))
         {
             var player = other.gameObject.GetComponent<IPlayer>();
-            player.Attack(AttackPlayer());
+            player.Attacked(AttackPlayer());
         }
     }
 

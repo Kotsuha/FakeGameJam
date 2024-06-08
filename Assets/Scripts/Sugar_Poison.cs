@@ -20,6 +20,11 @@ public class Sugar_Poison : MonoBehaviour, IDebuff, IEventAggregator
     {
         OnGetItem?.Invoke(nameof(Sugar_Poison));
         EventAggregator.Instance.ManualTrigger((ID, EventType.Item, EventBehaviorType.ItemBuff));
+        if (other.gameObject.name == nameof(Player))
+        {
+            var player = other.gameObject.GetComponent<IPlayer>();
+            player.Attacked(6);
+        }
     }
 
     public void DeBuff()
