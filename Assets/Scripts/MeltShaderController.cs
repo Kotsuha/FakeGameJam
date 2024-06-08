@@ -56,7 +56,7 @@ public class MeltShaderController : MonoBehaviour
     {
         // Perform a downward raycast to check for collisions
         RaycastHit hit;
-        Vector3 rayOrigin = transform.position + Vector3.up * 10; // Start the ray above the object
+        Vector3 rayOrigin = transform.position + Vector3.up * 1; // Start the ray above the object
         if (Physics.Raycast(rayOrigin, Vector3.down, out hit, Mathf.Infinity))
         {
             // Adjust the position based on the hit point, but limit the downward movement
