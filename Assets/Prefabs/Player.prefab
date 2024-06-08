@@ -95,8 +95,8 @@ GameObject:
   - component: {fileID: 2225392244014181305}
   - component: {fileID: 2311122696802117655}
   - component: {fileID: 6732902921667122655}
-  - component: {fileID: 6714888544710383057}
   - component: {fileID: 5906921554644143226}
+  - component: {fileID: 878315237261449163}
   - component: {fileID: 6535676642925898639}
   m_Layer: 0
   m_Name: Player
@@ -238,18 +238,6 @@ MonoBehaviour:
     slidingSpeed: 10
     sidewaysControl: 1
     speedControl: 0.4
---- !u!114 &6714888544710383057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6663023720652838368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60bca8f58a0b8478e946e6e86658cb29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5906921554644143226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +258,23 @@ MonoBehaviour:
   onHpBecomeZero:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &878315237261449163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6663023720652838368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7724e4319f76fca409b65bd3606a04f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HorizontalAxisName: Vertical
+  VerticalAxisName: Horizontal
+  JumpButtonName: Jump
+  inverseHorizontal: 1
+  inverseVertical: 0
 --- !u!114 &6535676642925898639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,8 +350,8 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
+    x: 0.78
+    y: 0.66
     width: 0.2
     height: 0.2
   near clip plane: 0.3
