@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using UnityEngine.Timeline;
 
 public class GameManager : MonoBehaviour, IEventAggregator
 {
@@ -13,6 +15,9 @@ public class GameManager : MonoBehaviour, IEventAggregator
     public EventType Type => EventType.System;
 
     Env env;
+    EnemyControl enemy;
+
+    [SerializeField] Enemy timeLineEnemy;
 
     public static GameManager GetInstance()
     {
@@ -28,7 +33,7 @@ public class GameManager : MonoBehaviour, IEventAggregator
         var allRootGos = SceneManager.GetActiveScene().GetRootGameObjects();
         foreach (var go in allRootGos)
         {
-            var enemy = go.GetComponentInChildren<EnemyControl>();
+            enemy = go.GetComponentInChildren<EnemyControl>();
             if (enemy)
             {
                 enemy.Init();
@@ -67,7 +72,31 @@ public class GameManager : MonoBehaviour, IEventAggregator
         InitEverything();
     }
 
-    private void OnGameOver() { }
+    private void OnGameOver()
+    {
+    }
+
+
+    public void ChangeAnimatorWBeforePlayTimeLine()
+    {
+        if (timeLineEnemy.PlayableDirector != null)
+        {
+            timeLineEnemy.PlayableDirector.Stop();
+            TimelineAsset timeline = (TimelineAsset)timeLineEnemy.PlayableDirector.playableAsset;
+
+            var allTrack = timeline.GetOutputTracks().ToList();
+            var currentAnimator = new AnimatorControl(timeLineEnemy.GetComponentsInChildren<Animator>().LastOrDefault(animator => animator.enabled == true));
+
+            timeLineEnemy.PlayableDirector.SetGenericBinding(allTrack[0], currentAnimator.GetAnimator());
+            var target = EventAggregator.Instance.InvokeRegisterEvent<ITarget>(nameof(Player), EventType.Player, EventBehaviorType.GetSeekTarget);
+            timeLineEnemy.PlayableDirector.SetGenericBinding(allTrack[1], target.Trans.gameObject);
+            timeLineEnemy.PlayableDirector.SetGenericBinding(allTrack[2], target.Animator);
+            timeLineEnemy.PlayableDirector.SetGenericBinding(allTrack[3], target.Animator);
+
+            timeLineEnemy.PlayableDirector.Play();
+        }
+        enemy.enemy.gameObject.SetActive(false);
+    }
 
     void OnDestroy()
     {

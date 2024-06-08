@@ -29,6 +29,7 @@ public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
 
     // [SerializeField] private UnityEvent<float> onHpDecrease;
     [SerializeField] private UnityEvent onHpBecomeZero;
+    [SerializeField] private Transform timeLineTarget;
 
     private float nextMeltTime;
 
@@ -39,6 +40,8 @@ public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
     public EventType Type => EventType.Player;
 
     public Transform Trans => transform;
+
+    public Animator Animator => playerAnimController.GetAnimator();
 
     void Start()
     {
@@ -53,10 +56,21 @@ public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
         nextMeltTime = Time.time + meltInterval;
 
         playerAnimController = GetComponent<PlayerAnimController>();
+        onHpBecomeZero.AddListener(ShowTimeLineTarget);
+    }
+
+    private void ShowTimeLineTarget()
+    {
+        timeLineTarget.gameObject.SetActive(true);
     }
 
     void Update()
     {
+        if (hp <= 0)
+        {
+            return;
+        }
+
         if (Time.time >= nextMeltTime)
         {
             nextMeltTime = Time.time + meltInterval;
@@ -92,6 +106,7 @@ public class Player : MonoBehaviour, IEventAggregator, ITarget, IPlayer
             {
                 // 讓冰淇淋融化，或其他血量歸零演出
                 onHpBecomeZero.Invoke();
+                playerAnimController.UpdateMeltingAnim(1);
             }
             // eventManager.Raise("玩家血改變了", oldHp, newHp);
             EventAggregator.Instance.ManualTrigger(("Player", EventType.Player, EventBehaviorType.HpChanged));

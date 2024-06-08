@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 5906921554644143226}
   - component: {fileID: 878315237261449163}
   - component: {fileID: 6535676642925898639}
+  - component: {fileID: 1115202618134506012}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -113,7 +114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6663023720652838368}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -257,7 +258,20 @@ MonoBehaviour:
   playerAnimController: {fileID: 6535676642925898639}
   onHpBecomeZero:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.Playables.PlayableDirector, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  timeLineTarget: {fileID: 0}
 --- !u!114 &878315237261449163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +302,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meltShaderController: {fileID: 8458443463995689894}
+--- !u!95 &1115202618134506012
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6663023720652838368}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7566561818318284937
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,6 +452,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4717883573414169486}
     m_Modifications:
+    - target: {fileID: 7611994511174610254, guid: f6660088805f9d4479331fb3d91d732f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7922134131523967342, guid: f6660088805f9d4479331fb3d91d732f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -575,6 +614,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: 9890ca39f5ee248c3aca3a35581c873a, type: 2}
+    - target: {fileID: 6675572095968092040, guid: 14b7be867f053e34083b9f93419f01f8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
