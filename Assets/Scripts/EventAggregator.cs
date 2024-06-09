@@ -15,15 +15,15 @@ public class EventAggregator : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance != null && instance != this)
         {
-            Destroy(instance);
+            Destroy(gameObject);
         }
         else
         {
             instance = this;
             transform.SetParent(null);
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
         }
 
         allRegisterEvents = new Dictionary<(string blockId, EventType addOnType, EventBehaviorType behavior), Delegate>();
@@ -79,6 +79,10 @@ public class EventAggregator : MonoBehaviour
 
     public void ManualTrigger((string blockId, EventType addonEventType, EventBehaviorType behaviorType) tuple)
     {
+        if (tuple.behaviorType== EventBehaviorType.GameOver)
+        {
+            Debug.Log("Trigger game over");
+        }
         OnTrigger?.Invoke(tuple);
     }
 }

@@ -19,24 +19,36 @@ public class GameManager : MonoBehaviour, IEventAggregator
 
     void Awake()
     {
-        if (!instance)
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
         {
             instance = this;
             transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+
+
+        //if (!instance)
+        //{
+        //    instance = this;
+        //    transform.SetParent(null);
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        //else
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
     }
 
     void Start()
     {
         // 聽「玩家血變了」
         // 入股血量 <= 0 則觸發 Game Over 事件
-
+        Debug.Log("註冊 game over");
         Action action = OnGameOver;
         EventAggregator.Instance.RegisterAddonEvent(this, EventBehaviorType.GameOver, action);
 
@@ -46,11 +58,12 @@ public class GameManager : MonoBehaviour, IEventAggregator
 
     private void OnGameOver()
     {
+        EventAggregator.Instance.OnTrigger -= OnEventTriggered;
     }
 
     void OnDestroy()
     {
-        EventAggregator.Instance.OnTrigger -= OnEventTriggered;
+        Debug.Log("GM Destroy");
     }
 
     private void OnEventTriggered((string id, EventType eventType, EventBehaviorType behaviorType) tuple)
@@ -66,6 +79,7 @@ public class GameManager : MonoBehaviour, IEventAggregator
         var (hp, _) = EventAggregator.Instance.InvokeRegisterEvent<(float hp, float hpMax)>(tuple.id, tuple.eventType, tuple.behaviorType);
         if (hp <= 0)
         {
+            Debug.Log("GM trigger game over");
             EventAggregator.Instance.ManualTrigger(("GameManager", EventType.System, EventBehaviorType.GameOver));
         }
     }
